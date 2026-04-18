@@ -1,132 +1,130 @@
 package com.krakedev.maquinaAliens;
 
 public class Alien {
+	private int tamanio;
+	private String color;
+	private int numeroOjos;
+	private int numeroBrazos;
+	private int numeroPiernas;
+	private double precioExtremidad;
+	private double precioOjo;
+	private double precioCuerpo;
+	private double precioTotal = 0;
 
-    private int tamanio;
-    private String color;
-    private int numeroOjos;
-    private int numeroBrazos;
-    private int numeroPies;
+	public Alien(int tamanio, String color) {
+		super();
+		if (tamanio < 5) {
+			this.tamanio = 5;
+		} else if (tamanio > 30) {
+			this.tamanio = 30;
+		} else {
+			this.tamanio = tamanio;
+		}
 
-    private double precioExtremidad;
-    private double precioOjo;
-    private double precioCuerpo;
-    private double precioTotal;
+		this.color = color;
+		this.precioCuerpo = this.tamanio * 0.20;
+		this.precioExtremidad = this.tamanio * 0.10;
+		this.precioOjo = this.tamanio * 0.05;
+	}
 
-    public Alien(int tamanio, String color) {
-        // Validación tamaño
-        if (tamanio < 5) {
-            this.tamanio = 5;
-        } else if (tamanio > 30) {
-            this.tamanio = 30;
-        } else {
-            this.tamanio = tamanio;
-        }
+	public int getTamanio() {
+		return tamanio;
+	}
 
-        this.color = color;
-        this.numeroOjos = 0;
-        this.numeroBrazos = 0;
-        this.numeroPies = 0;
+	public String getColor() {
+		return color;
+	}
 
-        // Precios
-        this.precioCuerpo = this.tamanio * 0.20;
-        this.precioExtremidad = this.tamanio * 0.10;
-        this.precioOjo = this.tamanio * 0.05;
+	public int getNumeroOjos() {
+		return numeroOjos;
+	}
 
-        this.precioTotal = 0;
-    }
+	public int getNumeroBrazos() {
+		return numeroBrazos;
+	}
 
-    // GETTERS
-    public int getTamanio() {
-        return tamanio;
-    }
+	public int getNumeroPiernas() {
+		return numeroPiernas;
+	}
 
-    public String getColor() {
-        return color;
-    }
+	public double getPrecioExtremidad() {
+		return precioExtremidad;
+	}
 
-    public int getNumeroOjos() {
-        return numeroOjos;
-    }
+	public double getPrecioOjo() {
+		return precioOjo;
+	}
 
-    public int getNumeroBrazos() {
-        return numeroBrazos;
-    }
+	public double getPrecioCuerpo() {
+		return precioCuerpo;
+	}
 
-    public int getNumeroPies() {
-        return numeroPies;
-    }
+	public double getPrecioTotal() {
+		return precioTotal;
+	}
 
-    public double getPrecioExtremidad() {
-        return precioExtremidad;
-    }
+	public void imprimir() {
+		System.out.println("Tamaño: " + this.tamanio);
+		System.out.println("Color: " + this.color);
+		System.out.println("Número de ojos: " + this.numeroOjos);
+		System.out.println("Número de brazos: " + this.numeroBrazos);
+		System.out.println("Número de piernas: " + this.numeroPiernas);
 
-    public double getPrecioOjo() {
-        return precioOjo;
-    }
+		System.out.printf("Precio cuerpo: %.2f\n", this.precioCuerpo);
+		System.out.printf("Precio extremidad: %.2f\n", this.precioExtremidad);
+		System.out.printf("Precio ojo: %.2f\n", this.precioOjo);
+		System.out.printf("Precio Total: %.2f\n", this.precioTotal);
+	}
 
-    public double getPrecioCuerpo() {
-        return precioCuerpo;
-    }
+	public boolean agregarBrazos(int cantidadBrazos) {
+		int cantidadExtremidades = this.numeroBrazos + this.numeroPiernas + cantidadBrazos;
+		if (cantidadExtremidades <= 10) {
+			this.numeroBrazos = this.numeroBrazos + cantidadBrazos;
+			calcularPrecioTotal();
+			return true;
 
-    public double getPrecioTotal() {
-        return precioTotal;
-    }
+		} else {
+			return false;
+		}
+	}
 
-    // MÉTODOS
-    public boolean agregarBrazos(int cantidad) {
-        if ((numeroBrazos + numeroPies + cantidad) <= 10) {
-            numeroBrazos += cantidad;
-            calcularPrecioTotal();
-            return true;
-        }
-        return false;
-    }
+	public boolean agregarPiernas(int cantidadPiernas) {
+		int cantidadExtremidades = this.numeroBrazos + this.numeroPiernas + cantidadPiernas;
+		if (cantidadExtremidades <= 10) {
+			this.numeroPiernas = this.numeroPiernas + cantidadPiernas;
+			calcularPrecioTotal();
+			return true;
 
-    public boolean agregarPiernas(int cantidad) {
-        if ((numeroBrazos + numeroPies + cantidad) <= 10) {
-            numeroPies += cantidad;
-            calcularPrecioTotal();
-            return true;
-        }
-        return false;
-    }
+		} else {
+			return false;
+		}
+	}
 
-    public boolean agregarOjos(int cantidad) {
-        int maxOjos;
+	public boolean agregarOjos(int cantidadOjos) {
+		int maximoOjos = 0;
 
-        if (tamanio >= 5 && tamanio <= 10) {
-            maxOjos = 3;
-        } else if (tamanio <= 20) {
-            maxOjos = 5;
-        } else {
-            maxOjos = 7;
-        }
+		if (this.tamanio >= 5 && this.tamanio <= 10) {
+			maximoOjos = 3;
+		} else if (this.tamanio > 10 && this.tamanio <= 20) {
+			maximoOjos = 5;
+		} else if (this.tamanio > 20 && this.tamanio <= 30) {
+			maximoOjos = 7;
+		}
 
-        if (numeroOjos + cantidad <= maxOjos) {
-            numeroOjos += cantidad;
-            calcularPrecioTotal();
-            return true;
-        }
-        return false;
-    }
+		if (this.numeroOjos + cantidadOjos <= maximoOjos) {
+			this.numeroOjos = this.numeroOjos + cantidadOjos;
+			calcularPrecioTotal();
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void calcularPrecioTotal() {
+		int cantidadExtre = this.numeroBrazos + this.numeroPiernas;
+		this.precioTotal = this.precioCuerpo+ (this.precioExtremidad * cantidadExtre) + (this.precioOjo*this.numeroOjos);
+		
+	}
+	
 
-    public void calcularPrecioTotal() {
-        precioTotal = precioCuerpo +
-                (numeroBrazos + numeroPies) * precioExtremidad +
-                (numeroOjos * precioOjo);
-    }
-
-    public void imprimir() {
-        System.out.println("Tamaño: " + tamanio);
-        System.out.println("Color: " + color);
-        System.out.println("Ojos: " + numeroOjos);
-        System.out.println("Brazos: " + numeroBrazos);
-        System.out.println("Piernas: " + numeroPies);
-        System.out.println("Precio Cuerpo: " + precioCuerpo);
-        System.out.println("Precio Extremidad: " + precioExtremidad);
-        System.out.println("Precio Ojo: " + precioOjo);
-        System.out.println("Precio Total: " + precioTotal);
-        System.out.println("------------------------");
-    }
 }
